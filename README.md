@@ -32,7 +32,7 @@ gnome-extensions enable dioscuri@jamir-boop.github.io
 
 ## Use
 
-Press `Ctrl+Super+End` to rotate windows forwards, or use the monitor icon in the top bar. The icon can be hidden in the preferences. The hotkey keeps working without it.
+Press `Super+Control+End` to rotate windows forwards, or use the monitor icon in the top bar. The icon can be hidden in the preferences. The hotkey keeps working without it.
 
 - Monitors are ordered left to right, then top to bottom. The last monitor wraps to the first.
 - Normal, minimized, maximized and fullscreen windows move and keep their state.
@@ -45,7 +45,7 @@ Open the preferences from the top bar menu or from Extension Manager. Press **Ch
 
 ![Preferences](docs/preferences.png)
 
-The Windows build uses `Win+End`. GNOME already binds `Super+End` to *Switch to last workspace*, so the default here is `Ctrl+Super+End`. To use `Super+End` anyway, clear the GNOME shortcut first:
+The Windows build uses `Win+End`. GNOME already binds `Super+End` to *Switch to last workspace*, so the default here is `Super+Control+End`. To use `Super+End` anyway, clear the GNOME shortcut first:
 
 ```sh
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-last "[]"
@@ -61,7 +61,7 @@ gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-last
 
 | Windows build | GNOME extension |
 |---|---|
-| `Win+End` | `Ctrl+Super+End`, because GNOME owns `Super+End` |
+| `Win+End` | `Super+Control+End`, because GNOME owns `Super+End` |
 | Tray icon | Top bar icon with the same menu |
 | Start with Windows | Enabled extensions load at login |
 | Exit | Disable the extension |
