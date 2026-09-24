@@ -235,6 +235,18 @@ export default class DioscuriE2EDriver extends Extension {
         settings.reset('rotate-forward');
         await sleep(300);
 
+        settings.set_boolean('show-indicator', false);
+        await sleep(300);
+        this._check('hidden icon removes the indicator', !Main.panel.statusArea[DIOSCURI]);
+        before = after;
+        await this._press(DEFAULT_KEYS);
+        after = this._snapshot(windows);
+        this._expectRotated('hotkey with the icon hidden', before, after);
+        settings.set_boolean('show-indicator', true);
+        await sleep(300);
+        const shown = Main.panel.statusArea[DIOSCURI]?.menu._getMenuItems()[1]?.label.text;
+        this._check('shown icon comes back with its menu', shown === 'Configure hotkey (Super+Control+End)…', shown);
+
         Main.extensionManager.disableExtension(DIOSCURI);
         await waitFor('Dioscuri to deactivate', () => Main.extensionManager.lookup(DIOSCURI)?.state !== STATE_ACTIVE);
         await sleep(300);

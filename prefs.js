@@ -123,6 +123,16 @@ export default class DioscuriPreferences extends ExtensionPreferences {
         changeButton.connect('clicked', () => this._captureShortcut(window, settings));
         resetButton.connect('clicked', () => settings.reset(HOTKEY));
 
+        const topBarGroup = new Adw.PreferencesGroup({title: 'Top Bar'});
+        const indicatorRow = new Adw.SwitchRow({
+            title: 'Show icon in the top bar',
+            subtitle: 'The hotkey keeps working when the icon is hidden. ' +
+                'Open these preferences from Extensions or Extension Manager.',
+        });
+        settings.bind('show-indicator', indicatorRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+        topBarGroup.add(indicatorRow);
+        page.add(topBarGroup);
+
         const behaviorGroup = new Adw.PreferencesGroup({
             title: 'Behavior',
             description: 'Every application window on the current workspace moves to the next ' +

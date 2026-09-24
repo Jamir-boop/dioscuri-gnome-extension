@@ -12,6 +12,7 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import {formatAccelerator, planRotation} from './core.js';
 
 const HOTKEY = 'rotate-forward';
+const SHOW_INDICATOR = 'show-indicator';
 
 // Application windows and free-standing dialogs. Docks, desktop icons,
 // menus, tooltips and utility palettes are the equivalent of Windows
@@ -56,8 +57,7 @@ class DioscuriIndicator extends PanelMenu.Button {
 export default class DioscuriExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
-        this._indicator = new DioscuriIndicator(this);
-        Main.panel.addToStatusArea(this.uuid, this._indicator);
+        this._indicator = null;
 
         // Mutter follows changes to the shortcut. An empty list disables it.
         const action = Main.wm.addKeybinding(
@@ -69,14 +69,17 @@ export default class DioscuriExtension extends Extension {
         if (action === Meta.KeyBindingAction.NONE)
             Main.notify('Dioscuri', 'GNOME could not register the hotkey. Choose another hotkey.');
 
-        this._settings.connectObject(`changed::${HOTKEY}`, () => this._syncLabel(), this);
-        this._syncLabel();
+        this._settings.connectObject(
+            `changed::${HOTKEY}`, () => this._syncLabel(),
+            `changed::${SHOW_INDICATOR}`, () => this._syncIndicator(),
+            this);
+        this._syncIndicator();
     }
 
     disable() {
         Main.wm.removeKeybinding(HOTKEY);
         this._settings.disconnectObject(this);
-        this._indicator.destroy();
+        this._indicator?.destroy();
         this._indicator = null;
         this._settings = null;
     }
@@ -111,7 +114,19 @@ export default class DioscuriExtension extends Extension {
             window.move_to_monitor(to);
     }
 
+    _syncIndicator() {
+        const show = this._settings.get_boolean(SHOW_INDICATOR);
+        if (show && !this._indicator) {
+            this._indicator = new DioscuriIndicator(this);
+            Main.panel.addToStatusArea(this.uuid, this._indicator);
+            this._syncLabel();
+        } else if (!show && this._indicator) {
+            this._indicator.destroy();
+            this._indicator = null;
+        }
+    }
+
     _syncLabel() {
-        this._indicator.setHotkey(this._settings.get_strv(HOTKEY)[0]);
+        this._indicator?.setHotkey(this._settings.get_strv(HOTKEY)[0]);
     }
 }

@@ -32,7 +32,7 @@ gnome-extensions enable dioscuri@jamir-boop.github.io
 
 ## Use
 
-Press `Ctrl+Super+End` to rotate windows forwards, or use the monitor icon in the top bar.
+Press `Ctrl+Super+End` to rotate windows forwards, or use the monitor icon in the top bar. The icon can be hidden in the preferences. The hotkey keeps working without it.
 
 - Monitors are ordered left to right, then top to bottom. The last monitor wraps to the first.
 - Normal, minimized, maximized and fullscreen windows move and keep their state.
