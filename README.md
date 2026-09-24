@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/dioscuri-banner.png" alt="Dioscuri - Dual Monitor Switcher" width="100%">
+</p>
+
 # Dioscuri Dual Monitor Switcher for GNOME
 
 GNOME Shell port of [Dioscuri](https://github.com/Jamir-boop/dioscuri-dual-monitor-switcher).
