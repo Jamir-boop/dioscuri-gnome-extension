@@ -1,0 +1,13 @@
+{
+  "uuid": "dioscuri@jamir-boop.github.io",
+  "name": "Dioscuri Dual Monitor Switcher",
+  "description": "Move every application window to the next monitor with one hotkey or from the top bar. GNOME port of the Dioscuri Windows tray utility.",
+  "version-name": "1.0.0",
+  "shell-version": [
+    "46",
+    "47",
+    "48"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.dioscuri",
+  "url": "https://github.com/Jamir-boop/dioscuri-gnome-extension"
+}

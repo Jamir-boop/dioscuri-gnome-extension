@@ -1,0 +1,5 @@
+dist/
+schemas/gschemas.compiled
+node_modules/
+shots/
+screenshots/

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.dioscuri" path="/org/gnome/shell/extensions/dioscuri/">
+    <key name="rotate-forward" type="as">
+      <default><![CDATA[['<Super><Control>End']]]></default>
+      <summary>Rotate screens forwards</summary>
+      <description>Shortcut that moves every eligible window to the next monitor.</description>
+    </key>
+    <key name="hotkey-enabled" type="b">
+      <default>true</default>
+      <summary>Enable the hotkey</summary>
+      <description>When false, the shortcut is not registered. The top bar menu still works.</description>
+    </key>
+    <key name="welcome-shown" type="b">
+      <default>false</default>
+      <summary>First-run notification shown</summary>
+      <description>Set to true after the first-run notification appears once.</description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g fill="#2e3436">
+    <!-- first monitor -->
+    <path fill-rule="evenodd" d="M2 1h5a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm.5 1.5v3h4v-3z"/>
+    <path d="M4 7h1v1H4zM3 8h3v1H3z"/>
+    <!-- second monitor -->
+    <path fill-rule="evenodd" d="M9 6h5a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm.5 1.5v3h4v-3z"/>
+    <path d="M11 12h1v1h-1zM10 13h3v1h-3z"/>
+    <!-- arrow from the first monitor to the second -->
+    <path d="M2 10h1.5v.5a2 2 0 0 0 2 2H6V14h-.5A3.5 3.5 0 0 1 2 10.5z"/>
+    <path d="M6 11l2.5 2.25L6 15.5z"/>
+  </g>
+</svg>

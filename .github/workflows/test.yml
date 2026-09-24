@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+
+  end-to-end:
+    # Ubuntu 24.04 ships GNOME Shell 46.
+    runs-on: ubuntu-24.04
+    env:
+      DIOSCURI_E2E_PRIVATE_SYSTEM_BUS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNOME Shell
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            gnome-shell gjs gir1.2-adw-1 gir1.2-gtk-4.0 librsvg2-common dbus-daemon libglib2.0-bin
+      - name: One monitor
+        run: tests/e2e/run.sh 1
+      - name: Two monitors
+        run: tests/e2e/run.sh 2 screenshots
+      - name: Three monitors
+        run: tests/e2e/run.sh 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots
+          path: screenshots
+          if-no-files-found: ignore

@@ -1,0 +1,6 @@
+{
+  "uuid": "dioscuri-e2e-driver@dioscuri.test",
+  "name": "Dioscuri end-to-end test driver",
+  "description": "Test only. Drives Dioscuri inside a private headless GNOME Shell.",
+  "shell-version": ["46", "47", "48"]
+}
