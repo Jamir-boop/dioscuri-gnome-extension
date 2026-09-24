@@ -4,17 +4,7 @@
     <key name="rotate-forward" type="as">
       <default><![CDATA[['<Super><Control>End']]]></default>
       <summary>Rotate screens forwards</summary>
-      <description>Shortcut that moves every eligible window to the next monitor.</description>
-    </key>
-    <key name="hotkey-enabled" type="b">
-      <default>true</default>
-      <summary>Enable the hotkey</summary>
-      <description>When false, the shortcut is not registered. The top bar menu still works.</description>
-    </key>
-    <key name="welcome-shown" type="b">
-      <default>false</default>
-      <summary>First-run notification shown</summary>
-      <description>Set to true after the first-run notification appears once.</description>
+      <description>Shortcut that moves every eligible window to the next monitor. An empty list disables it.</description>
     </key>
   </schema>
 </schemalist>

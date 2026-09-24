@@ -37,7 +37,7 @@ Press `Ctrl+Super+End` to rotate windows forwards, or use the monitor icon in th
 
 ## Hotkey
 
-Open the preferences from the top bar menu or from Extension Manager. You can change the shortcut, disable it, or reset it. A warning appears when the shortcut is already a built-in GNOME shortcut.
+Open the preferences from the top bar menu or from Extension Manager. Press **Change…** and type the new shortcut. `Backspace` there disables the hotkey. The undo button resets it. A warning appears when the shortcut is already a built-in GNOME shortcut.
 
 ![Preferences](docs/preferences.png)
 
@@ -73,11 +73,10 @@ Unit tests need Node.js 20 or later:
 npm test
 ```
 
-The end-to-end test starts a private headless GNOME Shell with virtual monitors. It opens real windows, presses the hotkey through a virtual keyboard, and checks where every window lands. It also loads the real preferences code and drives the shortcut dialog. It does not touch your session or your settings.
+The end-to-end test starts a private headless GNOME Shell with virtual monitors. It opens real windows, presses the hotkey through a virtual keyboard, and checks where every window lands. It does not touch your session or your settings.
 
 ```sh
-tests/e2e/run.sh 2            # 1, 2 or 3 monitors
-tests/e2e/run.sh 2 shots      # also saves screenshots into ./shots
+tests/e2e/run.sh 2    # 1, 2 or 3 monitors
 ```
 
 CI runs both on Ubuntu 24.04, which ships GNOME Shell 46.

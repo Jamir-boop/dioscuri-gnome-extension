@@ -3,14 +3,12 @@
 # virtual monitors, real client windows and a virtual keyboard.
 # Nothing touches the running desktop session or your settings.
 #
-# Usage: tests/e2e/run.sh [monitors] [screenshot-dir]
-#   monitors        1, 2 or 3 (default 2)
-#   screenshot-dir  optional; saves menu and preferences screenshots there
+# Usage: tests/e2e/run.sh [monitors]
+#   monitors  1, 2 or 3 (default 2)
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 MONITORS=${1:-2}
-SHOTS=${2:-}
 DRIVER=dioscuri-e2e-driver@dioscuri.test
 
 for tool in gnome-shell gjs gsettings dbus-run-session dbus-daemon glib-compile-schemas timeout; do
@@ -41,12 +39,6 @@ export NO_AT_BRIDGE=1
 export GTK_A11Y=none
 export DIOSCURI_E2E_RESULT="$WORK/result.txt"
 export DIOSCURI_E2E_WINDOW="$ROOT/tests/e2e/window.js"
-export DIOSCURI_E2E_PREFS="$ROOT/tests/e2e/prefs-check.js"
-if [ -n "$SHOTS" ]; then
-    mkdir -p "$SHOTS"
-    DIOSCURI_E2E_SHOTS=$(CDPATH= cd -- "$SHOTS" && pwd)
-    export DIOSCURI_E2E_SHOTS
-fi
 
 # Containers often have no system bus. GNOME Shell needs one to start,
 # so provide an empty private stand-in. Desktops keep their real bus.

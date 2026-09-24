@@ -5,10 +5,7 @@ import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import {formatAccelerator} from './core.js';
-
 const HOTKEY = 'rotate-forward';
-const HOTKEY_ENABLED = 'hotkey-enabled';
 
 // Built-in GNOME shortcuts. A Dioscuri hotkey that matches one of these
 // will not work reliably, so the preferences window warns about it.
@@ -82,13 +79,9 @@ export default class DioscuriPreferences extends ExtensionPreferences {
         });
         page.add(hotkeyGroup);
 
-        const enabledRow = new Adw.SwitchRow({title: 'Enable this hotkey'});
-        settings.bind(HOTKEY_ENABLED, enabledRow, 'active', Gio.SettingsBindFlags.DEFAULT);
-        hotkeyGroup.add(enabledRow);
-
         const shortcutRow = new Adw.ActionRow({title: 'Shortcut'});
         const shortcutLabel = new Gtk.ShortcutLabel({
-            disabled_text: 'None',
+            disabled_text: 'Disabled',
             valign: Gtk.Align.CENTER,
         });
         const changeButton = new Gtk.Button({
@@ -105,7 +98,6 @@ export default class DioscuriPreferences extends ExtensionPreferences {
         shortcutRow.add_suffix(changeButton);
         shortcutRow.add_suffix(resetButton);
         shortcutRow.activatable_widget = changeButton;
-        settings.bind(HOTKEY_ENABLED, shortcutRow, 'sensitive', Gio.SettingsBindFlags.GET);
         hotkeyGroup.add(shortcutRow);
 
         const conflictRow = new Adw.ActionRow({title: 'Also used by GNOME'});
@@ -118,15 +110,12 @@ export default class DioscuriPreferences extends ExtensionPreferences {
             const conflicts = accelerator ? findGnomeConflicts(accelerator) : [];
             conflictRow.subtitle = `${conflicts.join(', ')}. Choose another shortcut, ` +
                 'or clear the GNOME one in Settings, Keyboard, View and Customize Shortcuts.';
-            conflictRow.visible = conflicts.length > 0 && settings.get_boolean(HOTKEY_ENABLED);
+            conflictRow.visible = conflicts.length > 0;
             resetButton.sensitive = settings.get_user_value(HOTKEY) !== null;
         };
-        const handlers = [
-            settings.connect(`changed::${HOTKEY}`, sync),
-            settings.connect(`changed::${HOTKEY_ENABLED}`, sync),
-        ];
+        const handler = settings.connect(`changed::${HOTKEY}`, sync);
         window.connect('close-request', () => {
-            handlers.forEach(id => settings.disconnect(id));
+            settings.disconnect(handler);
             return false;
         });
         sync();
@@ -145,7 +134,8 @@ export default class DioscuriPreferences extends ExtensionPreferences {
     }
 
     _captureShortcut(parent, settings) {
-        const hint = 'Use at least one modifier: Super, Ctrl, Alt or Shift.\nEsc cancels.';
+        const hint = 'Use at least one modifier: Super, Ctrl, Alt or Shift.\n' +
+            'Esc cancels. Backspace disables the hotkey.';
         const status = new Adw.StatusPage({
             icon_name: 'preferences-desktop-keyboard-shortcuts-symbolic',
             title: 'Press the new shortcut',
@@ -184,13 +174,18 @@ export default class DioscuriPreferences extends ExtensionPreferences {
                 dialog.close();
                 return Gdk.EVENT_STOP;
             }
+            if (mask === 0 && keyval === Gdk.KEY_BackSpace) {
+                settings.set_strv(HOTKEY, []);
+                dialog.close();
+                return Gdk.EVENT_STOP;
+            }
 
             const key = normalizeKeyval(dialog, controller, keyval, keycode, state);
             // Lone modifier presses are not valid yet. Wait for the real key.
             if (!Gtk.accelerator_valid(key, mask))
                 return Gdk.EVENT_STOP;
             if (mask === 0) {
-                status.description = `${formatAccelerator(Gtk.accelerator_name(key, 0))} alone is not allowed. ${hint}`;
+                status.description = `${Gtk.accelerator_get_label(key, 0)} alone is not allowed. ${hint}`;
                 return Gdk.EVENT_STOP;
             }
 
